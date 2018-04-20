@@ -137,11 +137,13 @@ if (!!HTMLElement) {
             }
 
             .foreground-color {
-              fill: var(--img-icon--color, #FFC400);
+              fill: #fff;
+              fill: var(--img-icon--color, #fff);
             }
 
             .foreground-stop-color {
-              stop-color: var(--img-icon--color, #ffc400);
+              stop=color: #fff;
+              stop-color: var(--img-icon--color, #fff);
             }
 
             .gradient {
