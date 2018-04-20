@@ -113,9 +113,9 @@ if (!!HTMLElement) {
             :host {
               overflow: hidden;
               display: inline-block;
-              width: auto;
-              height: auto;
               margin: 0;
+              width: 24px;
+              height: 24px;
               padding: 0;
               outline-color: rgba(255,255,255,0);
             }
