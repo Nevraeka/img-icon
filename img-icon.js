@@ -1,10 +1,21 @@
 if (!!HTMLElement) {
   class ImgIcon extends HTMLElement {
 
-    static get observedAttributes() { return ['fill', 'shape']; }
+    static get observedAttributes() { return ['fill', 'key', 'shape']; }
 
-    static get paths() {
-      return {
+    static get shapes() {
+      return Object.keys(ImgIcon.config);
+    }
+
+    constructor() {
+      super();
+      this._root = null;
+      this._state = {
+        fill: 0,
+        shape: 'star'
+      };
+
+      ImgIcon.config = {
         addPhoto: 'M3 4V1h2v3h3v2H5v3H3V6H0V4h3zm3 6V7h3V4h7l1.83 2H21c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V10h3zm7 9c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-3.2-5c0 1.77 1.43 3.2 3.2 3.2s3.2-1.43 3.2-3.2-1.43-3.2-3.2-3.2-3.2 1.43-3.2 3.2z',
         alertCircle: 'M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z',
         arrowDropDown: 'M7 10l5 5 5-5z',
@@ -51,12 +62,6 @@ if (!!HTMLElement) {
       };
     }
 
-    constructor() {
-      super();
-      this._root = null;
-      this._state = { fill: 0, shape: 'star' };
-    }
-
     connectedCallback() {
       if (this._root === null) {
         if (!!this.attachShadow) {
@@ -86,6 +91,7 @@ if (!!HTMLElement) {
 
     attributeChangedCallback(name, oldValue, newValue) {
       if (newValue === oldValue) { return };
+      if (name === 'key') { this._state.key = newValue; }
       if (name === 'shape') { this._state.shape = newValue; }
       if (name === 'fill') { this._state.fill = parseInt(newValue, 10); }
       this._render();
@@ -94,18 +100,8 @@ if (!!HTMLElement) {
     get fill() { return this._state.fill; }
     get shape() { return this._state.shape; }
 
-    set fill(value) {
-      this._state.fill = parseInt(value, 10);
-      return this._state.fill;
-    }
-
-    set shape(value) {
-      this._state.shape = value;
-      return this._state.shape;
-    }
-
     _render() {
-      const gradientId = `gradient-${Math.random()}`;
+      const gradientId = `gradient-${this._state.key || (Math.random() * 1001 /2)}`;
       const fill = this.fill;
       const fillType = fill > 0 && fill < 100 ? 'gradient' : (fill >= 100 ? 'foreground-color' : 'background-color');
 
@@ -158,7 +154,7 @@ if (!!HTMLElement) {
             </linearGradient>
             </defs>
             <g>
-              <path d="${ImgIcon.paths[this.shape]}" />
+              <path d="${ImgIcon.config[this.shape]}" />
             </g>
           </svg>`;
 
