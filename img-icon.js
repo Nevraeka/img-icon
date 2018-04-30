@@ -133,8 +133,8 @@ if (!!HTMLElement) {
             }
 
             .foreground-color {
-              fill: #fff;
-              fill: var(--img-icon--color, #fff);
+              fill: currentColor;
+              fill: var(--img-icon--color, currentColor);
             }
 
             .foreground-stop-color {
